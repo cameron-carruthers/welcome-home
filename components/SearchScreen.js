@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import Card from './Card';
@@ -39,33 +39,39 @@ const SearchScreen = () => {
     });
   }, []);
 
+  const Houses = [
+    { title: 'Houses', data: houses},
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.subText}>My next home in</Text>
-        <Text style={styles.text}>{city}, {stateCode}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {}}
-        >
-          <Text style={styles.buttonText}>Change Preferences</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
-        <FlatList
-          data={houses}
-          keyExtractor={item => item.property_id}
-          renderItem={({ item }) => <Card 
-            price={item.price} 
-            city={item.address.city} 
-            state={item.address.state_code}
-            beds = {item.beds}
-            baths={item.baths}
-            propType={item.prop_type}
-            thumbnail={item.thumbnail}
-            />}
-        />
-      </View>
+      {houses ? <SectionList
+        stickySectionHeadersEnabled={false}
+        style={styles.list}
+        sections={Houses}
+        keyExtractor={item => item.property_id}
+        renderItem={({ item }) => <Card 
+          price={item.price} 
+          city={item.address.city} 
+          state={item.address.state_code}
+          beds = {item.beds}
+          baths={item.baths}
+          propType={item.prop_type}
+          thumbnail={item.thumbnail}
+          />}
+        renderSectionHeader={() => (
+          <View style={styles.textContainer}>
+            <Text style={styles.subText}>My next home in</Text>
+            <Text style={styles.text}>{city}, {stateCode}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {}}
+            >
+              <Text style={styles.buttonText}>Change Preferences</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      /> : null}
     </SafeAreaView>
   );
 }
@@ -121,6 +127,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 100,
     margin: 10
+  },
+  list: {
+    flex: 1
   }
 });
 
