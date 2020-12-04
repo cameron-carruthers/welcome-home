@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 import Card from './Card';
 import { backgroundColor } from './utils';
 import { apiKey } from '../config/apiKey';
+import primaryFont from './utils';
 
 const SearchScreen = () => {
 
@@ -17,13 +17,11 @@ const SearchScreen = () => {
       method: 'GET',
       url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-sale',
       params: {
-        city: location[0],
-        limit: '10',
+        city: 'Northglenn',
+        limit: '20',
         offset: '0',
-        state_code: location[1],
-        sort: 'relevance',
-        postal_code: '80234',
-        prop_type: '7203845692'
+        state_code: 'CO',
+        sort: 'relevance'
       },
       headers: {
         'x-rapidapi-key': apiKey,
@@ -92,16 +90,19 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 40,
     fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: primaryFont
   },
   subText: {
     fontSize: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: primaryFont
   },
   buttonText: {
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: '700'
+    fontWeight: '700',
+    fontFamily: primaryFont
   },
   inputContainer: {
     flexDirection: 'row',

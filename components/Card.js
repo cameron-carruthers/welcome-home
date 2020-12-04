@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
+import primaryFont from './utils';
 
 const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
   <View style={styles.cardContainer}>
@@ -49,7 +50,8 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 10,
     marginRight: 10,
-    flex: 1
+    flex: 1,
+    fontFamily: primaryFont
   },
   largeText: {
     fontSize: 20,

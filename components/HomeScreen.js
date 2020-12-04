@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ImageBackground, StyleSheet, Text } from 'react-native';
+import primaryFont from './utils';
 
 const HomeScreen = () => (
   <View style={styles.container}>
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 38,
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: primaryFont
   },
   textOne: {
     marginTop: 30
