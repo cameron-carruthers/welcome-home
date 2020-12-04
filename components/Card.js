@@ -1,17 +1,20 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 
-const Card = () => (
+const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
   <View style={styles.cardContainer}>
-    <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
+    <Image style={styles.image} source={{
+          uri: thumbnail,
+        }}/>
     <View style={styles.textContainer}>
       <View>
-        <Text style={[styles.largeText, styles.text]}>$300,000</Text>
-        <Text style={[styles.smallText, styles.text]}>Northglenn, CO</Text>
+        <Text style={[styles.largeText, styles.text]}>
+          ${price.toString().slice(0, 3)},{price.toString().slice(3)}</Text>
+        <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text>
       </View>
       <View>
-        <Text style={[styles.mediumText, styles.text]}>Townhome</Text>
-        <Text style={[styles.smallText, styles.text]}>2 bed 2 bath</Text> 
+        <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>
+        <Text style={[styles.smallText, styles.text]}>{beds} bed {baths} bath</Text> 
       </View>
     </View>
   </View>
@@ -24,10 +27,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.25,
-    shadowRadius: 16, 
+    shadowRadius: 5, 
     elevation: 10,
+    marginBottom: 25
   },
   textContainer: {
     flex: 1,

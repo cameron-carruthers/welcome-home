@@ -22,9 +22,9 @@ export default function App() {
 
             if (route.name === 'Home') {
               iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            } else if (route.name === 'SearchScreen') {
+                ? 'ios-home'
+                : 'ios-home';
+            } else if (route.name === 'Search') {
               iconName = focused ? 'ios-search' : 'ios-search';
             } else {
               iconName = focused ? 'ios-heart' : 'ios-heart-empty'
