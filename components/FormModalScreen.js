@@ -3,10 +3,10 @@ import { ScrollView, View, TextInput, StyleSheet, Text, Switch, TouchableOpacity
 import { Picker } from '@react-native-picker/picker';
 import { backgroundColor, primaryFont } from './utils';
 
-const FormModalScreen = ({ navigation }) => {
+const FormModalScreen = ({ navigation, route }) => {
 
-  const [city, setCity] = useState('Northglenn');
-  const [stateCode, setStateCode] = useState('CO');
+  const [city, setCity] = useState(route.params.city);
+  const [stateCode, setStateCode] = useState(route.params.stateCode);
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [bedrooms, setBedrooms] = useState(null);
@@ -54,7 +54,7 @@ const FormModalScreen = ({ navigation }) => {
           style={styles.input}
           value={city}
           onChangeText={setCity}
-          placeholder='Northglenn'
+          placeholder={route.params.city}
         />
       </View>
       <View style={styles.section}>

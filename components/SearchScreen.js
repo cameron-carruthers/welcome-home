@@ -9,10 +9,17 @@ import primaryFont from './utils';
 const SearchScreen = ({ navigation, route }) => {
 
   const [houses, setHouses] = useState([]);
+  const [city, setCity] = useState('Northglenn');
+  const [stateCode, setStateCode] = useState('CO');
 
   const searchCriteria = route.params ? route.params.searchCriteria: null;
   
   useEffect(() => {
+
+    if (searchCriteria) {
+      setCity(searchCriteria.city);
+      setStateCode(searchCriteria.stateCode);
+    }
 
     const { singleFamily, multiFamily, condo, mobile, land, farm, other } = searchCriteria.propTypes;
     const propTypes = [];
@@ -91,10 +98,10 @@ const SearchScreen = ({ navigation, route }) => {
         renderSectionHeader={() => (
           <View style={styles.textContainer}>
             <Text style={styles.subText}>My next home in</Text>
-            <Text style={styles.text}>{searchCriteria ? searchCriteria.city : 'Northglenn'}, {searchCriteria ? searchCriteria.stateCode : 'CO'}</Text>
+            <Text style={styles.text}>{city}, {stateCode}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('Preferences')}
+              onPress={() => navigation.navigate('Preferences', { city, stateCode })}
             >
               <Text style={styles.buttonText}>Change Preferences</Text>
             </TouchableOpacity>
