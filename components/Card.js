@@ -2,24 +2,43 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import primaryFont from './utils';
 
-const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
-  <View style={styles.cardContainer}>
-    <Image style={styles.image} source={{
-          uri: thumbnail,
-        }}/>
-    <View style={styles.textContainer}>
-      <View>
-        <Text style={[styles.largeText, styles.text]}>
-          ${price.toString().slice(0, 3)},{price.toString().slice(3)}</Text>
-        <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text>
-      </View>
-      <View>
-        <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>
-        <Text style={[styles.smallText, styles.text]}>{beds} bed {baths} bath</Text> 
+const Card = ({price, city, state, beds, baths, propType, thumbnail}) => {
+
+  const formatPrice = () => {
+    let priceString = price.toString();
+    let formattedPrice = [];
+
+    let section = '';
+    for (let i = priceString.length - 1; i >=0; i--) {
+      section = priceString[i] + section;
+      
+      if (section.length === 3 || i === 0) {
+        formattedPrice.unshift(section);
+        section = ''
+      }
+    }
+
+    return formattedPrice.join(',')
+  }
+
+  return (
+    <View style={styles.cardContainer}>
+      <Image style={styles.image} source={{
+            uri: thumbnail,
+          }}/>
+      <View style={styles.textContainer}>
+        <View>
+          <Text style={[styles.largeText, styles.text]}>${formatPrice()}</Text>
+          <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text>
+        </View>
+        <View>
+          <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>
+          <Text style={[styles.smallText, styles.text]}>{beds} bed {baths} bath</Text> 
+        </View>
       </View>
     </View>
-  </View>
-)
+  )
+}
 
 const styles = StyleSheet.create({
   cardContainer: {

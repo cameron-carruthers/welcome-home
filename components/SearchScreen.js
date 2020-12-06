@@ -16,34 +16,35 @@ const SearchScreen = ({ navigation, route }) => {
   
   useEffect(() => {
 
+    const propTypes = [];
+
     if (searchCriteria) {
       setCity(searchCriteria.city);
       setStateCode(searchCriteria.stateCode);
-    }
 
-    const { singleFamily, multiFamily, condo, mobile, land, farm, other } = searchCriteria.propTypes;
-    const propTypes = [];
+      const { singleFamily, multiFamily, condo, mobile, land, farm, other } = searchCriteria.propTypes;
 
-    if (singleFamily) {
-      propTypes.push('single_family');
-    }
-    if (multiFamily) {
-      propTypes.push('multi-family');
-    }
-    if (condo) {
-      propTypes.push('condo');
-    }
-    if (mobile) {
-      propTypes.push('mobile');
-    }
-    if (land) {
-      propTypes.push('land');
-    }
-    if (farm) {
-      propTypes.push('farm');
-    }
-    if (other) {
-      propTypes.push('other')
+      if (singleFamily) {
+        propTypes.push('single_family');
+      }
+      if (multiFamily) {
+        propTypes.push('multi-family');
+      }
+      if (condo) {
+        propTypes.push('condo');
+      }
+      if (mobile) {
+        propTypes.push('mobile');
+      }
+      if (land) {
+        propTypes.push('land');
+      }
+      if (farm) {
+        propTypes.push('farm');
+      }
+      if (other) {
+        propTypes.push('other')
+      }
     }
  
     const options = {
