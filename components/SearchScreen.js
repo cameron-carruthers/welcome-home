@@ -6,7 +6,7 @@ import { backgroundColor } from './utils';
 import { apiKey } from '../config/apiKey';
 import primaryFont from './utils';
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
 
   const [houses, setHouses] = useState([]);
   const [city, setCity] = useState('Northglenn');
@@ -63,7 +63,7 @@ const SearchScreen = () => {
             <Text style={styles.text}>{city}, {stateCode}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => {}}
+              onPress={() => navigation.navigate('Preferences')}
             >
               <Text style={styles.buttonText}>Change Preferences</Text>
             </TouchableOpacity>

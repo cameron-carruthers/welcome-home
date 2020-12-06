@@ -1,2 +1,2 @@
 export const backgroundColor = '#ccc8bc';
-export const primaryFont = 'Helvetica, sans-serif';
+export const primaryFont = 'Helvetica';

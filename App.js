@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from './components/HomeScreen';
 import FavoritesScreen from './components/FavoritesScreen';
-import SearchScreen from './components/SearchScreen';
+import RootSearchStackScreen from './components/SearchStackScreen';
 import { backgroundColor } from './components/utils';
 
 const Tab = createBottomTabNavigator();
@@ -43,7 +43,7 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Search" component={SearchScreen} />
+        <Tab.Screen name="Search" component={RootSearchStackScreen} />
         <Tab.Screen name="Favorites" component={FavoritesScreen} />
       </Tab.Navigator>
     </NavigationContainer>
