@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, View, TextInput, StyleSheet, Text, Switch } from 'react-native';
+import { ScrollView, View, TextInput, StyleSheet, Text, Switch, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { backgroundColor, primaryFont } from './utils';
 
-const FormModalScreen = () => {
+const FormModalScreen = ({ navigation }) => {
 
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
@@ -20,10 +20,36 @@ const FormModalScreen = () => {
   const [farm, setFarm] = useState(null);
   const [other, setOther] = useState(null);
 
+  const handleSubmit = () => {
+    if (minPrice > maxPrice) {
+      Alert.alert('Max Price must be greater than Min Price');
+    } else {
+
+      const searchCriteria = {
+        city,
+        stateCode,
+        minPrice,
+        maxPrice,
+        bedrooms,
+        bathrooms,
+        propTypes: {
+          singleFamily,
+          multiFamily,
+          condo,
+          mobile,
+          land,
+          farm,
+          other
+        }
+      }
+      navigation.navigate('Search', { searchCriteria });
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>City</Text>
+        <Text style={[styles.text, styles.bold]}>City</Text>
         <TextInput
           style={styles.input}
           value={city}
@@ -32,7 +58,7 @@ const FormModalScreen = () => {
         />
       </View>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>State</Text>
+        <Text style={[styles.text, styles.bold]}>State</Text>
         <Picker
           onPress={() => console.log('hello world')}
           selectedValue={stateCode}
@@ -92,7 +118,7 @@ const FormModalScreen = () => {
         </Picker>
       </View>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>Home Types</Text>
+        <Text style={[styles.text, styles.bold]}>Home Types</Text>
         <View style={styles.homeTypes}>
           <View style={styles.switch}>
             <Text style={styles.text}>Single-Family Homes</Text>
@@ -167,7 +193,7 @@ const FormModalScreen = () => {
         </View>
       </View>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>Price</Text>
+        <Text style={[styles.text, styles.bold]}>Price</Text>
         <View style={styles.pickerContainer}>
           <Picker
             style={styles.pricePicker}
@@ -304,7 +330,7 @@ const FormModalScreen = () => {
         </View>
       </View>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>Min Bedrooms</Text>
+        <Text style={[styles.text, styles.bold]}>Min Bedrooms</Text>
           <TextInput
             style={styles.input}
             value={bedrooms}
@@ -314,7 +340,7 @@ const FormModalScreen = () => {
           />
       </View>
       <View style={styles.section}>
-        <Text style={[styles.text, styles.label]}>Min Bathrooms</Text>
+        <Text style={[styles.text, styles.bold]}>Min Bathrooms</Text>
           <TextInput
             style={styles.input}
             value={bathrooms}
@@ -323,6 +349,9 @@ const FormModalScreen = () => {
             keyboardType='number-pad'
           />
       </View>
+      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+        <Text style={[styles.text, styles.bold]}>Submit</Text>
+      </TouchableOpacity>
     </ScrollView>
   )
 };
@@ -344,14 +373,15 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: primaryFont,
-    fontSize: 18,
+    fontSize: 16
   },
   priceText: {
     marginLeft: 10,
     marginRight: 10
   },
-  label: {
-    fontWeight: '700'
+  bold: {
+    fontWeight: '700',
+    fontSize: 20
   },
   pickerContainer: {
     flexDirection: 'row',
@@ -376,6 +406,15 @@ const styles = StyleSheet.create({
   homeTypes: {
     marginTop: 10,
     marginBottom: 10
+  },
+  button: {
+    marginTop: 20,
+    marginBottom: 100,
+    backgroundColor: 'white',
+    height: 44,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

@@ -6,22 +6,53 @@ import { backgroundColor } from './utils';
 import { apiKey } from '../config/apiKey';
 import primaryFont from './utils';
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation, route }) => {
 
   const [houses, setHouses] = useState([]);
-  const [city, setCity] = useState('Northglenn');
-  const [stateCode, setStateCode] = useState('CO')
+
+  const searchCriteria = route.params ? route.params.searchCriteria: null;
   
   useEffect(() => {
+
+    const { singleFamily, multiFamily, condo, mobile, land, farm, other } = searchCriteria.propTypes;
+    const propTypes = [];
+
+    if (singleFamily) {
+      propTypes.push('single_family');
+    }
+    if (multiFamily) {
+      propTypes.push('multi-family');
+    }
+    if (condo) {
+      propTypes.push('condo');
+    }
+    if (mobile) {
+      propTypes.push('mobile');
+    }
+    if (land) {
+      propTypes.push('land');
+    }
+    if (farm) {
+      propTypes.push('farm');
+    }
+    if (other) {
+      propTypes.push('other')
+    }
+ 
     const options = {
       method: 'GET',
       url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-sale',
       params: {
-        city: 'Northglenn',
+        city: searchCriteria ? searchCriteria.city : 'Northglenn',
         limit: '20',
         offset: '0',
-        state_code: 'CO',
-        sort: 'relevance'
+        state_code: searchCriteria ? searchCriteria.stateCode : 'CO',
+        sort: 'relevance',
+        price_min: searchCriteria ? searchCriteria.minPrice : null,
+        price_max: searchCriteria ? searchCriteria.maxPrice : null,
+        beds_min: searchCriteria ? searchCriteria.bedrooms : null,
+        baths_min: searchCriteria ? searchCriteria.bathrooms : null,
+        prop_type: searchCriteria ? propTypes.join(', ') : null
       },
       headers: {
         'x-rapidapi-key': apiKey,
@@ -35,7 +66,7 @@ const SearchScreen = ({ navigation }) => {
     }).catch(function (error) {
       console.error(error);
     });
-  }, []);
+  }, [searchCriteria]);
 
   const Houses = [
     { title: 'Houses', data: houses},
@@ -60,7 +91,7 @@ const SearchScreen = ({ navigation }) => {
         renderSectionHeader={() => (
           <View style={styles.textContainer}>
             <Text style={styles.subText}>My next home in</Text>
-            <Text style={styles.text}>{city}, {stateCode}</Text>
+            <Text style={styles.text}>{searchCriteria ? searchCriteria.city : 'Northglenn'}, {searchCriteria ? searchCriteria.stateCode : 'CO'}</Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate('Preferences')}
