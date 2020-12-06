@@ -87,15 +87,19 @@ const SearchScreen = ({ navigation, route }) => {
         style={styles.list}
         sections={Houses}
         keyExtractor={item => item.property_id}
-        renderItem={({ item }) => <Card 
-          price={item.price} 
-          city={item.address.city} 
-          state={item.address.state_code}
-          beds = {item.beds}
-          baths={item.baths}
-          propType={item.prop_type}
-          thumbnail={item.thumbnail}
-          />}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Details')}>
+            <Card 
+              price={item.price} 
+              city={item.address.city} 
+              state={item.address.state_code}
+              beds = {item.beds}
+              baths={item.baths}
+              propType={item.prop_type}
+              thumbnail={item.thumbnail}
+            />
+          </TouchableOpacity>
+        )}
         renderSectionHeader={() => (
           <View style={styles.textContainer}>
             <Text style={styles.subText}>My next home in</Text>
