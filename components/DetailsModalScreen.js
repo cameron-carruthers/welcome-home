@@ -63,7 +63,7 @@ const DetailsModalScreen = ({ route }) => {
                   {formatPropertyType(details.prop_type)}
                 </Text>
               </View>
-              {details.city
+              {details.address.city
               ? <Text style={[styles.text, styles.smallText, styles.marginBottom]}>
                 {details.address.line} {details.address.city}, {details.address.state_code} {details.address.zip_code}
               </Text>
