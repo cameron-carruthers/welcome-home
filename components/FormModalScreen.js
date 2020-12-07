@@ -60,7 +60,6 @@ const FormModalScreen = ({ navigation, route }) => {
       <View style={styles.section}>
         <Text style={[styles.text, styles.bold]}>State</Text>
         <Picker
-          onPress={() => console.log('hello world')}
           selectedValue={stateCode}
           mode=''
           onValueChange={(itemValue, itemIndex) =>
@@ -197,7 +196,6 @@ const FormModalScreen = ({ navigation, route }) => {
         <View style={styles.pickerContainer}>
           <Picker
             style={styles.pricePicker}
-            onPress={() => console.log('hello world')}
             selectedValue={minPrice}
             mode=''
             onValueChange={(itemValue, itemIndex) =>
@@ -264,7 +262,6 @@ const FormModalScreen = ({ navigation, route }) => {
           <Text style={[styles.text, styles.priceText]}>to</Text>
           <Picker
             style={styles.pricePicker}
-            onPress={() => console.log('hello world')}
             selectedValue={maxPrice}
             mode=''
             onValueChange={(itemValue, itemIndex) =>

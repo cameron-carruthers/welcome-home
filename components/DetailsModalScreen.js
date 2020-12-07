@@ -11,9 +11,6 @@ const DetailsModalScreen = ({ route }) => {
   const propertyID = route.params ? route.params.propertyID : null;
 
   useEffect(() => {
-
-    console.log('hello!')
-
     const options = {
       method: 'GET',
       url: 'https://realtor.p.rapidapi.com/properties/v2/detail',
@@ -26,10 +23,10 @@ const DetailsModalScreen = ({ route }) => {
       }
     };
 
-    axios.request(options).then(function (response) {
-      console.log(response.data);
+    axios.request(options)
+      .then((response) => {
       setDetails(response.data.properties[0]);
-    }).catch(function (error) {
+    }).catch((error) => {
       console.error(error);
     });
   }, [propertyID]);

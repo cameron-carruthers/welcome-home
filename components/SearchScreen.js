@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import Card from './Card';
-import { backgroundColor } from './utils';
+import { backgroundColor, primaryFont } from './utils';
 import { apiKey } from '../config/apiKey';
-import { primaryFont } from './utils';
 
 const SearchScreen = ({ navigation, route }) => {
 
   const [houses, setHouses] = useState([]);
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
-  const [propertyID, setPropertyID] = useState(null);
 
   const searchCriteria = route.params ? route.params.searchCriteria: null;
   
@@ -69,11 +67,10 @@ const SearchScreen = ({ navigation, route }) => {
       }
     };
 
-    axios.request(options).then(function (response) {
-      console.log(response.data.properties);
+    axios.request(options)
+        .then((response) => {
       setHouses(response.data.properties);
-      setPropertyID(response.data.property_id)
-    }).catch(function (error) {
+    }).catch((error) => {
       console.error(error);
     });
   }, [searchCriteria]);
