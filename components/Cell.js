@@ -1,11 +1,32 @@
-import react from 'React';
-import { View, Text, Stylesheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const Cell = () => (
-  <View>
-    <Text>3</Text>
-    <Text>bedrooms</Text>
+const Cell = ({ lineOne, lineTwo, finalCell}) => (
+  finalCell ? (
+    <View style={styles.container}>
+    <Text style={styles.text}>{lineOne}</Text>
+    <Text style={styles.text}>{lineTwo}</Text>
   </View>
+  ) : (
+    <View style={[styles.container, styles.border]}>
+      <Text style={styles.text}>{lineOne}</Text>
+      <Text style={styles.text}>{lineTwo}</Text>
+    </View>
+  )
 );
 
-export const Cell;
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    width: 70
+  },
+  border: {
+    borderRightColor: 'black',
+    borderRightWidth: 1,
+  },
+  text: {
+    textAlign: 'center'
+  }
+});
+
+export default Cell;

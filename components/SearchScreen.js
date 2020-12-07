@@ -4,13 +4,14 @@ import axios from 'axios';
 import Card from './Card';
 import { backgroundColor } from './utils';
 import { apiKey } from '../config/apiKey';
-import primaryFont from './utils';
+import { primaryFont } from './utils';
 
 const SearchScreen = ({ navigation, route }) => {
 
   const [houses, setHouses] = useState([]);
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
+  const [propertyID, setPropertyID] = useState(null);
 
   const searchCriteria = route.params ? route.params.searchCriteria: null;
   
@@ -71,6 +72,7 @@ const SearchScreen = ({ navigation, route }) => {
     axios.request(options).then(function (response) {
       console.log(response.data.properties);
       setHouses(response.data.properties);
+      setPropertyID(response.data.property_id)
     }).catch(function (error) {
       console.error(error);
     });
@@ -88,7 +90,7 @@ const SearchScreen = ({ navigation, route }) => {
         sections={Houses}
         keyExtractor={item => item.property_id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
             <Card 
               price={item.price} 
               city={item.address.city} 

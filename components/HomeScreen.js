@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ImageBackground, StyleSheet, Text } from 'react-native';
-import primaryFont from './utils';
+import { primaryFont } from './utils';
 
 const HomeScreen = () => (
   <View style={styles.container}>
