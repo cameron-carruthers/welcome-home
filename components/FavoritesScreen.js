@@ -8,7 +8,15 @@ const FavoritesScreen = ({ navigation }) => {
 
   const [houses, setHouses] = useState([]);
   
-  useEffect(() => {}, []);
+  useEffect(() => {
+
+    axios.get()
+    .then((response) => {
+      setHouses(response.data)
+    }).catch((error) => {
+      console.error(error);
+    })
+  }, []);
 
   const Houses = [
     { title: 'Houses', data: houses},
