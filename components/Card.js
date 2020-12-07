@@ -10,7 +10,9 @@ const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
     <View style={styles.textContainer}>
       <View>
         <Text style={[styles.largeText, styles.text]}>${insertCommas(price)}</Text>
-        <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text>
+        {city 
+        ? <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text> 
+        : <Text style={[styles.smallText, styles.text]}>{state}</Text>}
       </View>
       <View>
         <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>

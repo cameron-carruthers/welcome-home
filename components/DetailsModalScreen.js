@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text, SectionList } from 'react-native';
 import axios from 'axios';
 import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from './utils';
 import CellRow from './CellRow';
 import { apiKey } from '../config/apiKey';
 
-const DetailsModalScreen = ({ navigation, route }) => {
+const DetailsModalScreen = ({ route }) => {
 
   const [details, setDetails] = useState(null);
   const propertyID = route.params ? route.params.propertyID : null;
@@ -34,34 +34,52 @@ const DetailsModalScreen = ({ navigation, route }) => {
     });
   }, [propertyID]);
 
+  const Photos = details ? [
+    { title: 'Photos', data: details.photos},
+  ] : null;
+
   return (
-    <ScrollView style={styles.background}>
-      {details ? <View>
-        <Image style={styles.image} source={{
-          uri: details.photos[0].href,
-        }}/>
-        <View style={styles.textContainer}>
-          <View style={styles.containerRow}>
-            <Text style={[styles.text,styles.largeText]}>${insertCommas(details.price)}</Text>
-            <Text style={[styles.text, styles.mediumText]}>{formatPropertyType(details.prop_type)}</Text>
+    <View style={styles.background}>
+      {details ? <SectionList
+        stickySectionHeadersEnabled={false}
+        sections={Photos}
+        keyExtractor={item => Math.random() }
+        renderItem={({ item }) => (
+          <Image style={styles.image} source={{
+            uri: item.href,
+          }}/>
+        )}
+        renderSectionHeader={() => (
+          <View>
+            {details.photos.length > 0 ? <Image style={styles.image} source={{
+              uri: details.photos[0].href,
+            }}/> : <View style={[styles.image, styles.imagePlaceholder]}/>}
+            <View style={styles.textContainer}>
+              <View style={styles.containerRow}>
+                <Text style={[styles.text,styles.largeText]}>
+                  ${insertCommas(details.price)}
+                </Text>
+                <Text style={[styles.text, styles.mediumText]}>
+                  {formatPropertyType(details.prop_type)}
+                </Text>
+              </View>
+              {details.city
+              ? <Text style={[styles.text, styles.smallText, styles.marginBottom]}>
+                {details.address.line} {details.address.city}, {details.address.state_code} {details.address.zip_code}
+              </Text>
+              : <Text style={[styles.text, styles.smallText, styles.marginBottom]}>
+                {details.address.state_code} {details.address.zip_code}
+              </Text>}
+              <View style={styles.marginBottom}>
+                <CellRow beds={details.beds} baths={details.baths} sqft={details.building_size ? details.building_size.size : null} lot={details.lot_size ? details.lot_size.size : null}/>
+              </View>
+              <Text style={[styles.text, styles.mediumText, styles.marginBottom]}>Overview</Text>
+              <Text style={[styles.text, styles.smallText, styles.marginBottom]}>{details.description}</Text>
+            </View>
           </View>
-          <Text style={[styles.text, styles.smallText, styles.marginBottom]}>
-            {details.address.line} {details.address.city}, {details.address.state_code} {details.address.zip_code}
-            </Text>
-          <View style={styles.marginBottom}>
-            <CellRow beds={details.beds} baths={details.baths} sqft={details.building_size.size} lot={details['lot_size'] ? details.lot_size.size : null}/>
-          </View>
-          <Text style={[styles.text, styles.mediumText, styles.marginBottom]}>Overview</Text>
-          <Text style={[styles.text, styles.smallText, styles.marginBottom]}>{details.description}</Text>
-        </View>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-        <Image style={styles.image} source={require('../assets/sample-house.jpg')}/>
-      </View> : <Text>Loading...</Text>}
-    </ScrollView>
+        )}
+      /> : <Text style={[styles.text, styles.loading]}>Loading...</Text>}
+    </View>
   );
 }
 
@@ -74,6 +92,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 300,
     marginBottom: 20
+  },
+  imagePlaceholder: {
+    backgroundColor: 'grey'
   },
   textContainer: {
     marginLeft: 20,
@@ -100,6 +121,12 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     marginBottom: 20
+  },
+  loading: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: '700',
+    margin: 20
   }
 })
 

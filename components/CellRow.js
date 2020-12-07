@@ -8,8 +8,8 @@ const CellRow = ({ beds, baths, sqft, lot }) => {
     <View style={styles.container}>
       <Cell lineOne={beds} lineTwo='beds' finalCell={false}/>
       <Cell lineOne={baths} lineTwo='baths' finalCell={false}/>
-      <Cell lineOne={insertCommas(sqft)} lineTwo='Sq ft' finalCell={false}/>
-      <Cell lineOne={insertCommas(lot)} lineTwo='Sqft lot' finalCell={true}/>
+      {sqft ? <Cell lineOne={insertCommas(sqft)} lineTwo='Sq ft' finalCell={false}/> : null}
+      {lot ? <Cell lineOne={insertCommas(lot)} lineTwo='Sqft lot' finalCell={true}/> : null}
     </View>
   );
 }
