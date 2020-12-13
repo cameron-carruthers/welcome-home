@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, ImageBackground, StyleSheet, Text } from 'react-native';
+import { View, ImageBackground, StyleSheet, Text, Button } from 'react-native';
 import { primaryFont } from './utils';
 
-const HomeScreen = () => (
+const HomeScreen = ({ request, promptAsync, useProxy }) => (
   <View style={styles.container}>
     <ImageBackground source={require('../assets/home.jpg')} style={styles.image}>
       <Text style={[styles.text, styles.textOne]}>Welcome</Text>
       <Text style={styles.text}>Home</Text>
+      <Button
+        disabled={!request}
+        title="Login"
+        onPress={() => {
+          promptAsync({ useProxy });
+          }}
+      />
     </ImageBackground>
   </View>
 )

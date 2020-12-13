@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Text, SectionList } from 'react-native';
 import axios from 'axios';
 import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from './utils';
 import CellRow from './CellRow';
-import { apiKey } from '../config/apiKey';
+import { apiKey } from '../config/config';
 
 const DetailsModalScreen = ({ route }) => {
 
