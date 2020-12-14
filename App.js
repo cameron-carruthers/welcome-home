@@ -1,47 +1,19 @@
-import React, { useEffect } from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
-import { StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from './components/HomeScreen';
 import FavoritesScreen from './components/FavoritesScreen';
-import RootSearchStackScreen from './components/SearchStackScreen';
+import SearchStackScreen from './components/SearchStackScreen';
 import { backgroundColor } from './components/utils';
-import { oktaDomain, clientID, oktaRedirectURI } from './config/config';
 
 const Tab = createBottomTabNavigator();
-WebBrowser.maybeCompleteAuthSession();
-const useProxy = Platform.select({ web: false, default: true });
 
 const App = () => {
 
-  // Endpoint
-  const discovery = useAutoDiscovery(`https://${oktaDomain}.okta.com/oauth2/default`);
-  // Request
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: clientID,
-      scopes: ['openid', 'profile'],
-      // For usage in managed apps using the proxy
-      redirectUri: makeRedirectUri({
-        // For usage in bare and standalone
-        native: 'https://auth.expo.io/@clcarruthers/welcomeHome',
-        useProxy
-      }),
-    },
-    discovery
-  );
-
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { code } = response.params;
-      console.log('response', response)
-      console.log('code', code)
-      }
-  }, [response]);
+  const [favorites, setFavorites] = useState([])
 
   return (
     <NavigationContainer>
@@ -73,18 +45,14 @@ const App = () => {
           labelStyle: { fontSize: 12, fontFamily: 'Helvetica' }
         }}
       >
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen 
-          name="Home"
-          children={() => <HomeScreen 
-            request={request} 
-            promptAsync={promptAsync}
-            useProxy={useProxy}
-          />}
+          name="Search"
+          children={() => <SearchStackScreen favorites={favorites} setFavorites={setFavorites} />}
         />
-        <Tab.Screen name="Search" component={RootSearchStackScreen} />
         <Tab.Screen 
           name="Favorites"
-          children={() => <FavoritesScreen request={request} promptAsync={promptAsync}/>}
+          children={() => <FavoritesScreen favorites={favorites} setFavorites={setFavorites} />}
         />
       </Tab.Navigator>
     </NavigationContainer>

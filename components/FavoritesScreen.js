@@ -4,30 +4,18 @@ import axios from 'axios';
 import Card from './Card';
 import { backgroundColor, primaryFont } from './utils';
 
-const FavoritesScreen = ({ navigation }) => {
+const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
 
-  const [houses, setHouses] = useState([]);
-  
-  useEffect(() => {
-
-    axios.get()
-    .then((response) => {
-      setHouses(response.data)
-    }).catch((error) => {
-      console.error(error);
-    })
-  }, []);
-
-  const Houses = [
-    { title: 'Houses', data: houses},
+  const Favorites = [
+    { title: 'Favorites', data: favorites},
   ];
 
   return (
     <SafeAreaView style={styles.container}>
-      {houses ? <SectionList
+      {favorites ? <SectionList
         stickySectionHeadersEnabled={false}
         style={styles.list}
-        sections={Houses}
+        sections={Favorites}
         keyExtractor={item => item.property_id}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
