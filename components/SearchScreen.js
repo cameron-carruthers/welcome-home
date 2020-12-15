@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import Card from './Card';
-import { backgroundColor, primaryFont } from './utils';
-import { apiKey } from '../config/config';
+import {backgroundColor, primaryFont} from './utils';
+import {apiKey} from '../config/config';
 
-const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
+const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteIds}) => {
 
-  const [houses, setHouses] = useState([]);
+  const [houses, setHouses] = useState([])
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
 
-  const searchCriteria = route.params ? route.params.searchCriteria: null;
+  const searchCriteria = route ? route.params.searchCriteria: null;
   
   useEffect(() => {
 
@@ -69,7 +69,7 @@ const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
 
     axios.request(options)
       .then((response) => {
-        const houses = response.data.properties.map((property) => ({
+        const newHouses = response.data.properties.map((property) => ({
           id: property.property_id,
           price: property.price,
           city: property.address.city,
@@ -77,11 +77,9 @@ const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
           beds: property.beds,
           baths: property.baths,
           propType: property.prop_type,
-          thumbnail: property.thumbnail,
-          favorite: false
+          thumbnail: property.thumbnail
         }))
-        console.log('houses', houses)
-        setHouses(houses);
+        setHouses(newHouses);
     }).catch((error) => {
       console.error(error);
     });
@@ -101,6 +99,7 @@ const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id})}>
             <Card 
+              id={item.id}
               price={item.price} 
               city={item.city} 
               state={item.state}
@@ -108,7 +107,9 @@ const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
               baths={item.baths}
               propType={item.propType}
               thumbnail={item.thumbnail}
-              favorite={favorite}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
+              favoriteIds={favoriteIds}
             />
           </TouchableOpacity>
         )}
@@ -118,7 +119,7 @@ const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
             <Text style={styles.text}>{city}, {stateCode}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('Preferences', { city, stateCode })}
+              onPress={() => navigation.navigate('Preferences', {city, stateCode})}
             >
               <Text style={styles.buttonText}>Change Preferences</Text>
             </TouchableOpacity>

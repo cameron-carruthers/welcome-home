@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import Card from './Card';
 import { backgroundColor, primaryFont } from './utils';
 
-const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
+const FavoritesScreen = ({ navigation, favorites, favoriteIds, addFavorite, removeFavorite }) => {
 
   const Favorites = [
     { title: 'Favorites', data: favorites},
@@ -16,17 +15,21 @@ const FavoritesScreen = ({ navigation, favorites, setFavorites }) => {
         stickySectionHeadersEnabled={false}
         style={styles.list}
         sections={Favorites}
-        keyExtractor={item => item.property_id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id})}>
             <Card 
+              id={item.id}
               price={item.price} 
-              city={item.address.city} 
-              state={item.address.state_code}
-              beds = {item.beds}
+              city={item.city} 
+              state={item.state}
+              beds={item.beds}
               baths={item.baths}
-              propType={item.prop_type}
+              propType={item.propType}
               thumbnail={item.thumbnail}
+              favoriteIds={favoriteIds}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
             />
           </TouchableOpacity>
         )}

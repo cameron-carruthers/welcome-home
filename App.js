@@ -13,7 +13,27 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
 
-  const [favorites, setFavorites] = useState([])
+  const [favoriteIds, setFavoriteIds] = useState({});
+  const [favorites, setFavorites] = useState([]);
+
+  const addFavorite = (favorite) => {
+    const newFavoriteIds = favoriteIds;
+    if (newFavoriteIds[favorite.id]) {
+      return
+    }
+    newFavoriteIds[favorite.id] = true;
+    setFavoriteIds(newFavoriteIds)
+    setFavorites([...favorites, favorite])
+  };
+
+  const removeFavorite = (id) => {
+    const newFavoriteIds = favoriteIds;
+    delete newFavoriteIds[id];
+    setFavoriteIds(newFavoriteIds)
+    const newFavorites = favorites;
+    const filteredFavorites = newFavorites.filter(favorite => favorite.id !== id);
+    setFavorites(filteredFavorites)
+  };
 
   return (
     <NavigationContainer>
@@ -32,7 +52,6 @@ const App = () => {
               iconName = focused ? 'ios-heart' : 'ios-heart-empty'
             }
 
-            // You can return any component that you like here!
             return <Ionicons style={styles.icon} name={iconName} size={size} color={color} />;
           },
         })}
@@ -48,11 +67,23 @@ const App = () => {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen 
           name="Search"
-          children={() => <SearchStackScreen favorites={favorites} setFavorites={setFavorites} />}
+          children={() => ( 
+            <SearchStackScreen 
+              remove
+              addFavorite={addFavorite} 
+              removeFavorite={removeFavorite}
+              favoriteIds={favoriteIds}
+            />
+          )}
         />
         <Tab.Screen 
           name="Favorites"
-          children={() => <FavoritesScreen favorites={favorites} setFavorites={setFavorites} />}
+          children={() => <FavoritesScreen 
+            favorites={favorites} 
+            favoriteIds={favoriteIds} 
+            addFavorite={addFavorite} 
+            removeFavorite={removeFavorite}
+          />}
         />
       </Tab.Navigator>
     </NavigationContainer>
