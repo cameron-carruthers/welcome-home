@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeScreen from './components/HomeScreen';
 import FavoritesStackScreen from './components/FavoritesStackScreen';
@@ -16,23 +17,56 @@ const App = () => {
   const [favoriteIds, setFavoriteIds] = useState({});
   const [favorites, setFavorites] = useState([]);
 
+  useEffect(() => {
+    //Populate state with favorite Ids in local storage
+    AsyncStorage.getItem('@favoriteIds')
+      .then((data) => {
+        data ? setFavoriteIds(JSON.parse(data)) : null;
+      })
+     //Populate state with favorites in local storage
+    AsyncStorage.getItem('@favorites')
+      .then((data) => {
+        data ? setFavorites(JSON.parse(data)) : null;
+      })
+  }, []);
+
   const addFavorite = (favorite) => {
+    // Update favoriteIds in state
     const newFavoriteIds = favoriteIds;
     if (newFavoriteIds[favorite.id]) {
       return
     }
     newFavoriteIds[favorite.id] = true;
-    setFavoriteIds(newFavoriteIds)
-    setFavorites([...favorites, favorite])
+    setFavoriteIds(newFavoriteIds);
+    // Update favoriteIds in AsyncStorage
+    const jsonIds = JSON.stringify(newFavoriteIds)
+    AsyncStorage.setItem('@favoriteIds', jsonIds);
+
+    //Update favorites array in state
+    const newFavorites = [...favorites, favorite]
+    setFavorites(newFavorites);
+    //Update favorites array in AsyncStorage
+    const jsonFavorites = JSON.stringify(newFavorites);
+    AsyncStorage.setItem('@favorites', jsonFavorites)
   };
 
   const removeFavorite = (id) => {
+    //Remove from favoriteIds in state
     const newFavoriteIds = favoriteIds;
     delete newFavoriteIds[id];
-    setFavoriteIds(newFavoriteIds)
+    setFavoriteIds(newFavoriteIds);
+    //Remove from favoriteIds in AsyncStorage
+    const jsonIds = JSON.stringify(newFavoriteIds);
+    AsyncStorage.setItem('@favoriteIds', jsonIds);
+
+    //Remove from favorites in state
     const newFavorites = favorites;
     const filteredFavorites = newFavorites.filter(favorite => favorite.id !== id);
-    setFavorites(filteredFavorites)
+    setFavorites(filteredFavorites);
+
+    //Remove from favorites in AsyncStorage
+    const jsonFavorites = JSON.stringify(newFavorites);
+    AsyncStorage.setItem('@favorites', jsonFavorites);
   };
 
   return (
