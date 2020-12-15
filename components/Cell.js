@@ -4,9 +4,9 @@ import { View, Text, StyleSheet } from 'react-native';
 const Cell = ({ lineOne, lineTwo, finalCell}) => (
   finalCell ? (
     <View style={styles.container}>
-    <Text style={styles.text}>{lineOne}</Text>
-    <Text style={styles.text}>{lineTwo}</Text>
-  </View>
+      <Text style={styles.text}>{lineOne}</Text>
+      <Text style={styles.text}>{lineTwo}</Text>
+    </View>
   ) : (
     <View style={[styles.container, styles.border]}>
       <Text style={styles.text}>{lineOne}</Text>

@@ -5,7 +5,7 @@ import Card from './Card';
 import { backgroundColor, primaryFont } from './utils';
 import { apiKey } from '../config/config';
 
-const SearchScreen = ({ navigation, route }) => {
+const SearchScreen = ({ navigation, route, favorite, setFavorite }) => {
 
   const [houses, setHouses] = useState([]);
   const [city, setCity] = useState('Northglenn');
@@ -68,8 +68,20 @@ const SearchScreen = ({ navigation, route }) => {
     };
 
     axios.request(options)
-        .then((response) => {
-      setHouses(response.data.properties);
+      .then((response) => {
+        const houses = response.data.properties.map((property) => ({
+          id: property.property_id,
+          price: property.price,
+          city: property.address.city,
+          state: property.address.state_code,
+          beds: property.beds,
+          baths: property.baths,
+          propType: property.prop_type,
+          thumbnail: property.thumbnail,
+          favorite: false
+        }))
+        console.log('houses', houses)
+        setHouses(houses);
     }).catch((error) => {
       console.error(error);
     });
@@ -85,17 +97,18 @@ const SearchScreen = ({ navigation, route }) => {
         stickySectionHeadersEnabled={false}
         style={styles.list}
         sections={Houses}
-        keyExtractor={item => item.property_id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id})}>
             <Card 
               price={item.price} 
-              city={item.address.city} 
-              state={item.address.state_code}
+              city={item.city} 
+              state={item.state}
               beds = {item.beds}
               baths={item.baths}
-              propType={item.prop_type}
+              propType={item.propType}
               thumbnail={item.thumbnail}
+              favorite={favorite}
             />
           </TouchableOpacity>
         )}

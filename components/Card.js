@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
-import { primaryFont, insertCommas } from './utils';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHeart } from '@fortawesome/free-regular-svg-icons'
+import { primaryFont, backgroundColor, insertCommas } from './utils';
 
 const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
   <View style={styles.cardContainer}>
+    <FontAwesomeIcon style={styles.icon} icon={faHeart} size={60}/>
     <Image style={styles.image} source={{
       uri: thumbnail,
     }}/>
@@ -64,6 +67,14 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 16
+  },
+  icon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    margin: 16,
+    zIndex: 10,
+    color: backgroundColor
   }
 });
 
