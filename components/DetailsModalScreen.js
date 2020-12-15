@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Image, StyleSheet, Text, SectionList } from 'react-native';
 import axios from 'axios';
+import AnimatedLoader from "react-native-animated-loader";
 import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from './utils';
 import CellRow from './CellRow';
 import { apiKey } from '../config/config';
@@ -22,7 +23,6 @@ const DetailsModalScreen = ({ route }) => {
         'x-rapidapi-host': 'realtor.p.rapidapi.com'
       }
     };
-
     axios.request(options)
       .then((response) => {
       setDetails(response.data.properties[0]);
@@ -105,7 +105,15 @@ const DetailsModalScreen = ({ route }) => {
         </View>
       </ScrollView>
       :
-      <Text style={[styles.text, styles.loading]}>Loading...</Text>}
+      <View style={styles.loaderContainer}>
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgba(255,255,255,0.75)"
+          source={require("./loader.json")}
+          animationStyle={styles.lottie}
+          speed={1}
+        />
+      </View>}
     </View>
   );
 }
@@ -149,11 +157,16 @@ const styles = StyleSheet.create({
   marginBottom: {
     marginBottom: 20
   },
-  loading: {
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: '700',
-    margin: 20
+  loaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+    width: 30
+  },
+  lottie: {
+    height: 300,
+    width: 300
   }
 })
 

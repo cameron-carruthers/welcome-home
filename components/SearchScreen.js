@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import AnimatedLoader from "react-native-animated-loader";
 import Card from './Card';
 import {backgroundColor, primaryFont} from './utils';
 import {apiKey} from '../config/config';
@@ -14,7 +15,7 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
   const searchCriteria = route.params ? route.params.searchCriteria: null;
   
   useEffect(() => {
-
+    setHouses([])
     const propTypes = [];
 
     if (searchCriteria) {
@@ -91,7 +92,7 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
 
   return (
     <SafeAreaView style={styles.container}>
-      {houses ? <SectionList
+      {houses.length > 0 ? <SectionList
         stickySectionHeadersEnabled={false}
         style={styles.list}
         sections={Houses}
@@ -125,7 +126,16 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
             </TouchableOpacity>
           </View>
         )}
-      /> : null}
+      /> 
+      : <View style={styles.loaderContainer}>
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgba(255,255,255,0.75)"
+          source={require("./loader.json")}
+          animationStyle={styles.lottie}
+          speed={1}
+        />
+      </View>}
     </SafeAreaView>
   );
 }
@@ -187,6 +197,17 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1
+  },
+  loaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+    width: 30
+  },
+  lottie: {
+    height: 300,
+    width: 300
   }
 });
 
