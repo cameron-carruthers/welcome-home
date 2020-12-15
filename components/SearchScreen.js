@@ -11,7 +11,7 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
 
-  const searchCriteria = route ? route.params.searchCriteria: null;
+  const searchCriteria = route.params ? route.params.searchCriteria: null;
   
   useEffect(() => {
 

@@ -9,15 +9,9 @@ const SearchStack = createStackNavigator();
 function SearchStackScreen({addFavorite, removeFavorite, favoriteIds}) {
   return (
     <SearchStack.Navigator mode="modal">
-      <SearchStack.Screen
-        name="Search"
-        children={() => <SearchScreen 
-          addFavorite={addFavorite} 
-          removeFavorite={removeFavorite} 
-          favoriteIds={favoriteIds}
-        />}
-        options={{headerShown: false}}
-      />
+      <SearchStack.Screen name="Search" options={{headerShown: false}}>
+        {props => <SearchScreen {...props} addFavorite={addFavorite} removeFavorite={removeFavorite} favoriteIds={favoriteIds}/>}
+      </SearchStack.Screen>
       <SearchStack.Screen name="Preferences" component={FormModalScreen} />
       <SearchStack.Screen name="Details" component={DetailsModalScreen} />
     </SearchStack.Navigator>

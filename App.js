@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import HomeScreen from './components/HomeScreen';
-import FavoritesScreen from './components/FavoritesScreen';
+import FavoritesStackScreen from './components/FavoritesStackScreen';
 import SearchStackScreen from './components/SearchStackScreen';
 import { backgroundColor } from './components/utils';
 
@@ -69,7 +69,6 @@ const App = () => {
           name="Search"
           children={() => ( 
             <SearchStackScreen 
-              remove
               addFavorite={addFavorite} 
               removeFavorite={removeFavorite}
               favoriteIds={favoriteIds}
@@ -78,7 +77,7 @@ const App = () => {
         />
         <Tab.Screen 
           name="Favorites"
-          children={() => <FavoritesScreen 
+          children={() => <FavoritesStackScreen 
             favorites={favorites} 
             favoriteIds={favoriteIds} 
             addFavorite={addFavorite} 
