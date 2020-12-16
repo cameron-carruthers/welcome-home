@@ -4,7 +4,6 @@ import axios from 'axios';
 import AnimatedLoader from "react-native-animated-loader";
 import Card from './Card';
 import {backgroundColor, primaryFont} from './utils';
-import {apiKey} from '../config/config';
 
 const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteIds}) => {
 
@@ -49,7 +48,7 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
  
     const options = {
       method: 'GET',
-      url: 'https://welcome-api.herokuapp.com',
+      url: 'https://welcome-api.herokuapp.com/houses',
       params: {
         city: searchCriteria ? searchCriteria.city : 'Northglenn',
         limit: '20',

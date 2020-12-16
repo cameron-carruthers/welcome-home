@@ -4,7 +4,6 @@ import axios from 'axios';
 import AnimatedLoader from "react-native-animated-loader";
 import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from './utils';
 import CellRow from './CellRow';
-import { apiKey } from '../config/config';
 
 const DetailsModalScreen = ({ route }) => {
 
@@ -14,7 +13,7 @@ const DetailsModalScreen = ({ route }) => {
   useEffect(() => {
     const options = {
       method: 'GET',
-      url: 'https://welcome-api.herokuapp.com',
+      url: 'https://welcome-api.herokuapp.com/house',
       params: { 
         property_id: route.params.id
       }
