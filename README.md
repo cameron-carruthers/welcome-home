@@ -18,7 +18,7 @@ When looking for houses, I wanted a real estate app with a better user experienc
 
 ### View Houses
 
-<img src="https://github.com/cameron-carruthers/welcome-home/blob/main/view-houses.gif" width="400">
+<img src="https://github.com/cameron-carruthers/welcome-home/blob/main/view-houses.gif" width="300">
 
 ### Mark Houses as Favorites and View Favorites
 
