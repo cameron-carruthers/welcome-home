@@ -34,8 +34,8 @@ I wanted to make a real estate app that had a better user experience than the on
 - Figma (for Mockups)
 - React Native
 - Expo
-- Python (for REST API which can be found HERE)
-- Flask (for REST API which can be found HERE)
+- Python (for REST API - separate repo linked above)
+- Flask (for REST API - separate repo linked above)
 - Realtor API
 - Heroku
 
