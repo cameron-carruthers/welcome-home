@@ -20,10 +20,9 @@ When looking for houses, I wanted a real estate app with a better user experienc
 
 <img src="https://github.com/cameron-carruthers/welcome-home/blob/main/view-houses.gif" width="300">
 
-### Mark Houses as Favorites and View Favorites
+### Set Preferences
 
-![Buy Pets Practice gif](https://github.com/cameron-carruthers/practice-tracker/blob/master/buy-pets.gif
-)
+<img src="https://github.com/cameron-carruthers/welcome-home/blob/main/set-preferences.gif" width="300">
 
 ## Technologies Used
 
