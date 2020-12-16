@@ -36,6 +36,7 @@ I wanted to make a real estate app that had a better user experience than the on
 - Expo
 - Python (for REST API which can be found HERE)
 - Flask (for REST API which can be found HERE)
+- Realtor API
 - Heroku
 
 ## Usage
