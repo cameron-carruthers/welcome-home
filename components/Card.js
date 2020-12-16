@@ -1,25 +1,46 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
-import { primaryFont, insertCommas } from './utils';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHeart as faHeartOutline } from '@fortawesome/free-regular-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { primaryFont, backgroundColor, insertCommas } from './utils';
 
-const Card = ({price, city, state, beds, baths, propType, thumbnail}) => (
+const Card = ({id, price, city, state, beds, baths, propType, thumbnail, addFavorite, removeFavorite, favoriteIds}) => (
   <View style={styles.cardContainer}>
-    <Image style={styles.image} source={{
-      uri: thumbnail,
-    }}/>
-    <View style={styles.textContainer}>
-      <View>
-        <Text style={[styles.largeText, styles.text]}>${insertCommas(price)}</Text>
-        {city 
-        ? <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text> 
-        : <Text style={[styles.smallText, styles.text]}>{state}</Text>}
-      </View>
-      <View>
-        <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>
-        <Text style={[styles.smallText, styles.text]}>{beds} bed {baths} bath</Text> 
-      </View>
+  {favoriteIds[id]
+  ? <TouchableOpacity style={styles.iconButton} onPress={() => {removeFavorite(id)}}>
+      <FontAwesomeIcon style={styles.favorite} icon={faHeart} size={60} />
+    </TouchableOpacity>
+  : <TouchableOpacity style={styles.iconButton} onPress={() => {
+      addFavorite({
+        id,
+        price,
+        city,
+        state,
+        beds,
+        baths,
+        propType,
+        thumbnail
+      })
+    }}>
+      <FontAwesomeIcon style={styles.notFavorite} icon={faHeartOutline} size={60} />
+    </TouchableOpacity>}
+  <Image style={styles.image} source={{
+    uri: thumbnail,
+  }}/>
+  <View style={styles.textContainer}>
+    <View>
+      <Text style={[styles.largeText, styles.text]}>${insertCommas(price)}</Text>
+      {city 
+      ? <Text style={[styles.smallText, styles.text]}>{city}, {state}</Text> 
+      : <Text style={[styles.smallText, styles.text]}>{state}</Text>}
+    </View>
+    <View>
+      <Text style={[styles.mediumText, styles.text]}>{propType === 'single_family' ? 'House' : propType.slice(0, 1).toUpperCase() + propType.slice(1)}</Text>
+      <Text style={[styles.smallText, styles.text]}>{beds} bed {baths} bath</Text> 
     </View>
   </View>
+</View>
 )
 
 const styles = StyleSheet.create({
@@ -64,6 +85,19 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 16
+  },
+  iconButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    margin: 16,
+    zIndex: 10,
+  },
+  notFavorite: {
+    color: backgroundColor
+  },
+  favorite: {
+    color: 'maroon'
   }
 });
 

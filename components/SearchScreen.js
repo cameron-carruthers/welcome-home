@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
+import AnimatedLoader from "react-native-animated-loader";
 import Card from './Card';
-import { backgroundColor, primaryFont } from './utils';
-import { apiKey } from '../config/config';
+import {backgroundColor, primaryFont} from './utils';
 
-const SearchScreen = ({ navigation, route }) => {
+const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteIds}) => {
 
-  const [houses, setHouses] = useState([]);
+  const [houses, setHouses] = useState([])
   const [city, setCity] = useState('Northglenn');
   const [stateCode, setStateCode] = useState('CO');
 
   const searchCriteria = route.params ? route.params.searchCriteria: null;
   
   useEffect(() => {
-
+    setHouses([])
     const propTypes = [];
 
     if (searchCriteria) {
@@ -48,7 +48,7 @@ const SearchScreen = ({ navigation, route }) => {
  
     const options = {
       method: 'GET',
-      url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-sale',
+      url: 'https://welcome-api.herokuapp.com/houses',
       params: {
         city: searchCriteria ? searchCriteria.city : 'Northglenn',
         limit: '20',
@@ -60,16 +60,22 @@ const SearchScreen = ({ navigation, route }) => {
         beds_min: searchCriteria ? searchCriteria.bedrooms : null,
         baths_min: searchCriteria ? searchCriteria.bathrooms : null,
         prop_type: searchCriteria ? propTypes.join(', ') : null
-      },
-      headers: {
-        'x-rapidapi-key': apiKey,
-        'x-rapidapi-host': 'realtor.p.rapidapi.com'
       }
     };
 
     axios.request(options)
-        .then((response) => {
-      setHouses(response.data.properties);
+      .then((response) => {
+        const newHouses = response.data.properties.map((property) => ({
+          id: property.property_id,
+          price: property.price,
+          city: property.address.city,
+          state: property.address.state_code,
+          beds: property.beds,
+          baths: property.baths,
+          propType: property.prop_type,
+          thumbnail: property.thumbnail
+        }))
+        setHouses(newHouses);
     }).catch((error) => {
       console.error(error);
     });
@@ -81,21 +87,25 @@ const SearchScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {houses ? <SectionList
+      {houses.length > 0 ? <SectionList
         stickySectionHeadersEnabled={false}
         style={styles.list}
         sections={Houses}
-        keyExtractor={item => item.property_id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id})}>
             <Card 
+              id={item.id}
               price={item.price} 
-              city={item.address.city} 
-              state={item.address.state_code}
+              city={item.city} 
+              state={item.state}
               beds = {item.beds}
               baths={item.baths}
-              propType={item.prop_type}
+              propType={item.propType}
               thumbnail={item.thumbnail}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
+              favoriteIds={favoriteIds}
             />
           </TouchableOpacity>
         )}
@@ -105,13 +115,22 @@ const SearchScreen = ({ navigation, route }) => {
             <Text style={styles.text}>{city}, {stateCode}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('Preferences', { city, stateCode })}
+              onPress={() => navigation.navigate('Preferences', {city, stateCode})}
             >
               <Text style={styles.buttonText}>Change Preferences</Text>
             </TouchableOpacity>
           </View>
         )}
-      /> : null}
+      /> 
+      : <View style={styles.loaderContainer}>
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgba(255,255,255,0.75)"
+          source={require("./loader.json")}
+          animationStyle={styles.lottie}
+          speed={1}
+        />
+      </View>}
     </SafeAreaView>
   );
 }
@@ -173,6 +192,17 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1
+  },
+  loaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+    width: 30
+  },
+  lottie: {
+    height: 300,
+    width: 300
   }
 });
 

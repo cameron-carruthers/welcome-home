@@ -1,44 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 import Card from './Card';
 import { backgroundColor, primaryFont } from './utils';
 
-const FavoritesScreen = ({ navigation }) => {
+const FavoritesScreen = ({ navigation, favorites, favoriteIds, addFavorite, removeFavorite }) => {
 
-  const [houses, setHouses] = useState([]);
-  
-  useEffect(() => {
-
-    axios.get()
-    .then((response) => {
-      setHouses(response.data)
-    }).catch((error) => {
-      console.error(error);
-    })
-  }, []);
-
-  const Houses = [
-    { title: 'Houses', data: houses},
+  const Favorites = [
+    { title: 'Favorites', data: favorites},
   ];
 
   return (
     <SafeAreaView style={styles.container}>
-      {houses ? <SectionList
+      {favorites ? <SectionList
         stickySectionHeadersEnabled={false}
         style={styles.list}
-        sections={Houses}
-        keyExtractor={item => item.property_id}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('Details', { propertyID: item.property_id })}>
+        sections={Favorites}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <TouchableOpacity onPress={() => navigation.navigate('Details', {id: item.id})}>
             <Card 
+              id={item.id}
               price={item.price} 
-              city={item.address.city} 
-              state={item.address.state_code}
-              beds = {item.beds}
+              city={item.city} 
+              state={item.state}
+              beds={item.beds}
               baths={item.baths}
-              propType={item.prop_type}
+              propType={item.propType}
               thumbnail={item.thumbnail}
+              favoriteIds={favoriteIds}
+              addFavorite={addFavorite}
+              removeFavorite={removeFavorite}
             />
           </TouchableOpacity>
         )}

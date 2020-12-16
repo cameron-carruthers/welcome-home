@@ -7,13 +7,6 @@ const HomeScreen = ({ request, promptAsync, useProxy }) => (
     <ImageBackground source={require('../assets/home.jpg')} style={styles.image}>
       <Text style={[styles.text, styles.textOne]}>Welcome</Text>
       <Text style={styles.text}>Home</Text>
-      <Button
-        disabled={!request}
-        title="Login"
-        onPress={() => {
-          promptAsync({ useProxy });
-          }}
-      />
     </ImageBackground>
   </View>
 )

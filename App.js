@@ -1,47 +1,73 @@
-import React, { useEffect } from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import { makeRedirectUri, useAuthRequest, useAutoDiscovery } from 'expo-auth-session';
-import { StyleSheet, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeScreen from './components/HomeScreen';
-import FavoritesScreen from './components/FavoritesScreen';
-import RootSearchStackScreen from './components/SearchStackScreen';
+import FavoritesStackScreen from './components/FavoritesStackScreen';
+import SearchStackScreen from './components/SearchStackScreen';
 import { backgroundColor } from './components/utils';
-import { oktaDomain, clientID, oktaRedirectURI } from './config/config';
 
 const Tab = createBottomTabNavigator();
-WebBrowser.maybeCompleteAuthSession();
-const useProxy = Platform.select({ web: false, default: true });
 
 const App = () => {
 
-  // Endpoint
-  const discovery = useAutoDiscovery(`https://${oktaDomain}.okta.com/oauth2/default`);
-  // Request
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: clientID,
-      scopes: ['openid', 'profile'],
-      // For usage in managed apps using the proxy
-      redirectUri: makeRedirectUri({
-        // For usage in bare and standalone
-        native: 'https://auth.expo.io/@clcarruthers/welcomeHome',
-        useProxy
-      }),
-    },
-    discovery
-  );
+  const [favoriteIds, setFavoriteIds] = useState({});
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      const { code } = response.params;
-      console.log('response', response)
-      console.log('code', code)
-      }
-  }, [response]);
+    //Populate state with favorite Ids in local storage
+    AsyncStorage.getItem('@favoriteIds')
+      .then((data) => {
+        data ? setFavoriteIds(JSON.parse(data)) : null;
+      })
+     //Populate state with favorites in local storage
+    AsyncStorage.getItem('@favorites')
+      .then((data) => {
+        data ? setFavorites(JSON.parse(data)) : null;
+      })
+  }, []);
+
+  const addFavorite = (favorite) => {
+    // Update favoriteIds in state
+    const newFavoriteIds = favoriteIds;
+    if (newFavoriteIds[favorite.id]) {
+      return
+    }
+    newFavoriteIds[favorite.id] = true;
+    setFavoriteIds(newFavoriteIds);
+    // Update favoriteIds in AsyncStorage
+    const jsonIds = JSON.stringify(newFavoriteIds)
+    AsyncStorage.setItem('@favoriteIds', jsonIds);
+
+    //Update favorites array in state
+    const newFavorites = [...favorites, favorite]
+    setFavorites(newFavorites);
+    //Update favorites array in AsyncStorage
+    const jsonFavorites = JSON.stringify(newFavorites);
+    AsyncStorage.setItem('@favorites', jsonFavorites)
+  };
+
+  const removeFavorite = (id) => {
+    //Remove from favoriteIds in state
+    const newFavoriteIds = favoriteIds;
+    delete newFavoriteIds[id];
+    setFavoriteIds(newFavoriteIds);
+    //Remove from favoriteIds in AsyncStorage
+    const jsonIds = JSON.stringify(newFavoriteIds);
+    AsyncStorage.setItem('@favoriteIds', jsonIds);
+
+    //Remove from favorites in state
+    const newFavorites = favorites;
+    const filteredFavorites = newFavorites.filter(favorite => favorite.id !== id);
+    setFavorites(filteredFavorites);
+
+    //Remove from favorites in AsyncStorage
+    const jsonFavorites = JSON.stringify(newFavorites);
+    AsyncStorage.setItem('@favorites', jsonFavorites);
+  };
 
   return (
     <NavigationContainer>
@@ -60,7 +86,6 @@ const App = () => {
               iconName = focused ? 'ios-heart' : 'ios-heart-empty'
             }
 
-            // You can return any component that you like here!
             return <Ionicons style={styles.icon} name={iconName} size={size} color={color} />;
           },
         })}
@@ -73,18 +98,25 @@ const App = () => {
           labelStyle: { fontSize: 12, fontFamily: 'Helvetica' }
         }}
       >
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen 
-          name="Home"
-          children={() => <HomeScreen 
-            request={request} 
-            promptAsync={promptAsync}
-            useProxy={useProxy}
-          />}
+          name="Search"
+          children={() => ( 
+            <SearchStackScreen 
+              addFavorite={addFavorite} 
+              removeFavorite={removeFavorite}
+              favoriteIds={favoriteIds}
+            />
+          )}
         />
-        <Tab.Screen name="Search" component={RootSearchStackScreen} />
         <Tab.Screen 
           name="Favorites"
-          children={() => <FavoritesScreen request={request} promptAsync={promptAsync}/>}
+          children={() => <FavoritesStackScreen 
+            favorites={favorites} 
+            favoriteIds={favoriteIds} 
+            addFavorite={addFavorite} 
+            removeFavorite={removeFavorite}
+          />}
         />
       </Tab.Navigator>
     </NavigationContainer>
