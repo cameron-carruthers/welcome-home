@@ -24,6 +24,10 @@ When looking for houses, I wanted a real estate app with a better user experienc
 
 <img src="https://github.com/cameron-carruthers/welcome-home/blob/main/set-preferences.gif" width="300">
 
+### Save Favorites
+
+<img src="https://github.com/cameron-carruthers/welcome-home/blob/main/save-favorites.gif" width="300">
+
 ## Technologies Used
 
 - Figma (for Mockups)
