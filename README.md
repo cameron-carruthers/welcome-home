@@ -10,7 +10,7 @@ https://expo.io/@clcarruthers/projects/welcomeHome
 
 ## Motivation
 
-As I have been looking for a new house, I noticed that the user experience wasn't great for many of the real estate apps I tried
+I wanted to make a real estate app that had a better user experience than the ones I had tried while looking for properties
 
 ## Features
 
