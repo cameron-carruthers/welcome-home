@@ -49,7 +49,7 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
  
     const options = {
       method: 'GET',
-      url: 'https://realtor.p.rapidapi.com/properties/v2/list-for-sale',
+      url: 'https://welcome-api.herokuapp.com',
       params: {
         city: searchCriteria ? searchCriteria.city : 'Northglenn',
         limit: '20',
@@ -61,10 +61,6 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
         beds_min: searchCriteria ? searchCriteria.bedrooms : null,
         baths_min: searchCriteria ? searchCriteria.bathrooms : null,
         prop_type: searchCriteria ? propTypes.join(', ') : null
-      },
-      headers: {
-        'x-rapidapi-key': apiKey,
-        'x-rapidapi-host': 'realtor.p.rapidapi.com'
       }
     };
 

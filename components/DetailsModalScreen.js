@@ -14,13 +14,9 @@ const DetailsModalScreen = ({ route }) => {
   useEffect(() => {
     const options = {
       method: 'GET',
-      url: 'https://realtor.p.rapidapi.com/properties/v2/detail',
+      url: 'https://welcome-api.herokuapp.com',
       params: { 
         property_id: route.params.id
-      },
-      headers: {
-        'x-rapidapi-key': apiKey,
-        'x-rapidapi-host': 'realtor.p.rapidapi.com'
       }
     };
     axios.request(options)
