@@ -59,6 +59,6 @@ Executing the code below will install Expo globally, install dependencies, and s
 npm install --global expo-cli
 npm install
 expo start
-scan QR code on browser
+scan QR code that appears in the browser
 
 ```
