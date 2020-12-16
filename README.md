@@ -16,19 +16,14 @@ When looking for houses, I wanted a real estate app with a better user experienc
 
 ## Features
 
-### Submit practice
+### Search for Houses and View Details about Each House
 
 ![Submit Practice gif](https://github.com/cameron-carruthers/practice-tracker/blob/master/submit-practice-form.gif
 )
 
-### View and purchase pets
+### Mark Houses as Favorites and View Favorites
 
 ![Buy Pets Practice gif](https://github.com/cameron-carruthers/practice-tracker/blob/master/buy-pets.gif
-)
-
-### View the pets each student has purchased
-
-![View Pets gif](https://github.com/cameron-carruthers/practice-tracker/blob/master/view-pets.gif
 )
 
 ## Technologies Used
