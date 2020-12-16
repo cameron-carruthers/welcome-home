@@ -16,10 +16,9 @@ When looking for houses, I wanted a real estate app with a better user experienc
 
 ## Features
 
-### Search for Houses and View Details about Each House
+### View Houses
 
-![Submit Practice gif](https://github.com/cameron-carruthers/practice-tracker/blob/master/submit-practice-form.gif
-)
+![View Houses gif](https://github.com/cameron-carruthers/welcome-home/blob/main/view-houses.gif)
 
 ### Mark Houses as Favorites and View Favorites
 
