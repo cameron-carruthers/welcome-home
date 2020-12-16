@@ -2,7 +2,7 @@
 
 > WelcomeHome is a real estate app for those looking for their next home
 
-This repo contains the React Native code.  The code for the REST API can be found here: https://github.com/cameron-carruthers/welcome_api
+This repo contains the React Native code.  The REST API can be found here: https://github.com/cameron-carruthers/welcome_api
 
 ## Published App on Expo.io
 
