@@ -1,4 +1,4 @@
-# welcome-home
+# WelcomeHome
 
 > WelcomeHome is a real estate app for those looking for their next home
 
