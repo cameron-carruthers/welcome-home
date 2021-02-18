@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import AnimatedLoader from 'react-native-animated-loader';
 import Card from '../components/Card';
