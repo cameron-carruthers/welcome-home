@@ -5,10 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import HomeScreen from './components/HomeScreen';
-import FavoritesStackScreen from './components/FavoritesStackScreen';
-import SearchStackScreen from './components/SearchStackScreen';
-import { backgroundColor } from './components/utils';
+import HomeScreen from './src/screens/HomeScreen';
+import FavoritesStackNavigator from './src/navigation/FavoritesStackNavigator';
+import SearchStackNavigator from './src/navigation/SearchStackNavigator';
+import { backgroundColor } from './src/utils';
 
 const Tab = createBottomTabNavigator();
 
@@ -102,7 +102,7 @@ const App = () => {
         <Tab.Screen 
           name="Search"
           children={() => ( 
-            <SearchStackScreen 
+            <SearchStackNavigator 
               addFavorite={addFavorite} 
               removeFavorite={removeFavorite}
               favoriteIds={favoriteIds}
@@ -111,7 +111,7 @@ const App = () => {
         />
         <Tab.Screen 
           name="Favorites"
-          children={() => <FavoritesStackScreen 
+          children={() => <FavoritesStackNavigator 
             favorites={favorites} 
             favoriteIds={favoriteIds} 
             addFavorite={addFavorite} 

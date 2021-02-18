@@ -3,9 +3,9 @@ import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faHeart as faHeartOutline } from '@fortawesome/free-regular-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { primaryFont, backgroundColor, insertCommas } from './utils';
+import { primaryFont, backgroundColor, insertCommas } from '../utils';
 
-const Card = ({id, price, city, state, beds, baths, propType, thumbnail, addFavorite, removeFavorite, favoriteIds}) => (
+const Card = ({ id, price, city, state, beds, baths, propType, thumbnail, addFavorite, removeFavorite, favoriteIds }) => (
   <View style={styles.cardContainer}>
   {favoriteIds[id]
   ? <TouchableOpacity style={styles.iconButton} onPress={() => {removeFavorite(id)}}>

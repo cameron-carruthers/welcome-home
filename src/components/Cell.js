@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Cell = ({ lineOne, lineTwo, finalCell}) => (
+const Cell = ({ lineOne, lineTwo, finalCell }) => (
   finalCell ? (
     <View style={styles.container}>
       <Text style={styles.text}>{lineOne}</Text>

@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
-import AnimatedLoader from "react-native-animated-loader";
-import Card from './Card';
-import {backgroundColor, primaryFont} from './utils';
+import AnimatedLoader from 'react-native-animated-loader';
+import Card from '../components/Card';
+import { backgroundColor, primaryFont } from '../utils';
 
-const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteIds}) => {
+const SearchScreen = ({ navigation, route, addFavorite, removeFavorite, favoriteIds }) => {
 
   const [houses, setHouses] = useState([])
   const [city, setCity] = useState('Northglenn');
@@ -125,8 +125,8 @@ const SearchScreen = ({navigation, route, addFavorite, removeFavorite, favoriteI
       : <View style={styles.loaderContainer}>
         <AnimatedLoader
           visible={true}
-          overlayColor="rgba(255,255,255,0.75)"
-          source={require("./loader.json")}
+          overlayColor='rgba(255,255,255,0.75)'
+          source={require('../components/loader.json')}
           animationStyle={styles.lottie}
           speed={1}
         />

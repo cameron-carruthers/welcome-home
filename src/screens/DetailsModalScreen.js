@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Image, StyleSheet, Text, SectionList } from 'react-native';
 import axios from 'axios';
-import AnimatedLoader from "react-native-animated-loader";
-import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from './utils';
-import CellRow from './CellRow';
+import AnimatedLoader from 'react-native-animated-loader';
+import { backgroundColor, primaryFont, formatPropertyType, insertCommas } from '../utils';
+import CellRow from '../components/CellRow';
 
 const DetailsModalScreen = ({ route }) => {
 
@@ -35,7 +35,7 @@ const DetailsModalScreen = ({ route }) => {
       {details ? details.photos ? <SectionList
         stickySectionHeadersEnabled={false}
         sections={Photos}
-        keyExtractor={item => Math.random() }
+        keyExtractor={() => Math.random() }
         renderItem={({ item }) => (
           <Image style={styles.image} source={{
             uri: item.href,
@@ -103,8 +103,8 @@ const DetailsModalScreen = ({ route }) => {
       <View style={styles.loaderContainer}>
         <AnimatedLoader
           visible={true}
-          overlayColor="rgba(255,255,255,0.75)"
-          source={require("./loader.json")}
+          overlayColor='rgba(255,255,255,0.75)'
+          source={require('../components/loader.json')}
           animationStyle={styles.lottie}
           speed={1}
         />

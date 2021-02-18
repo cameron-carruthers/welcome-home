@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Cell from './Cell';
-import { insertCommas } from './utils';
+import { insertCommas } from '../utils';
 
 const CellRow = ({ beds, baths, sqft, lot }) => {
   return (

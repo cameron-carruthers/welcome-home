@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, SafeAreaView, StyleSheet, SectionList, Text, TouchableOpacity } from 'react-native';
-import Card from './Card';
-import { backgroundColor, primaryFont } from './utils';
+import Card from '../components/Card';
+import { backgroundColor, primaryFont } from '../utils';
 
 const FavoritesScreen = ({ navigation, favorites, favoriteIds, addFavorite, removeFavorite }) => {
 
